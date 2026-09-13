@@ -41,8 +41,11 @@ export function normalizeRequirements(input: Partial<RecommendationRequirements>
     uses: Array.from(selected) as UseCase[],
     cpuPreference: input.cpuPreference?.trim() || undefined,
     gpuPreference: input.gpuPreference?.trim() || undefined,
+    brandPreference: input.brandPreference?.trim() || undefined,
+    osPreference: input.osPreference?.trim() || undefined,
     gpuRequired: Boolean(input.gpuRequired),
     minVram: input.minVram ? Math.max(1, Number(input.minVram)) : undefined,
+    maxWeight: input.maxWeight ? Math.max(0.5, Number(input.maxWeight)) : undefined,
     displayPreference: input.displayPreference ?? "any",
     minRam: Math.max(4, Number(input.minRam ?? DEFAULT_REQUIREMENTS.minRam)),
     minStorage: Math.max(128, Number(input.minStorage ?? DEFAULT_REQUIREMENTS.minStorage)),
@@ -104,6 +107,9 @@ function getBreakdown(laptop: Laptop, requirements: RecommendationRequirements):
   const portability = clamp(110 - laptop.weight * 35);
   const cpu = preferenceMatch(laptop.cpu, requirements.cpuPreference, laptop.cpuScore);
   const gpu = preferenceMatch(laptop.gpu, requirements.gpuPreference, laptop.gpuScore);
+  const brand = preferenceMatch(laptop.brand, requirements.brandPreference, 70);
+  const os = requirements.osPreference ? 65 : 100;
+  const preference = (cpu + gpu + brand + os) / 4;
   const useCase = useCaseScore(laptop, requirements);
   const performance = laptop.cpuScore * 0.38 + laptop.gpuScore * 0.42 + memory * 0.1 + display * 0.1;
   const value = clamp(laptop.valueScore * 0.6 + budget * 0.4);
@@ -119,6 +125,7 @@ function getBreakdown(laptop: Laptop, requirements: RecommendationRequirements):
     [memory, 0.45 + requirements.programmingImportance + requirements.editingImportance + requirements.aiImportance],
     [storage, 0.35 + requirements.programmingImportance * 0.7 + requirements.editingImportance],
     [display, 0.35 + requirements.editingImportance + requirements.gamingImportance * 0.5],
+    [preference, 0.5 + requirements.performanceImportance],
   ] as Array<[number, number]>;
   const totalSignalWeight = signalWeights.reduce((sum, [, weight]) => sum + weight, 0);
   const overall = clamp(signalWeights.reduce((sum, [signal, weight]) => sum + signal * weight, 0) / totalSignalWeight);
@@ -139,6 +146,7 @@ function getBreakdown(laptop: Laptop, requirements: RecommendationRequirements):
     useCase,
     value,
     budgetFit: budget,
+    preference,
   };
 }
 
@@ -154,6 +162,9 @@ function eligibility(laptop: Laptop, requirements: RecommendationRequirements) {
   if (requirements.minRefreshRate && laptop.refreshRate < requirements.minRefreshRate) reasons.push(`Below your ${requirements.minRefreshRate} Hz refresh-rate minimum`);
   if (requirements.gpuRequired && !hasDedicatedGpu(laptop)) reasons.push("Does not have a dedicated GPU");
   if (requirements.minVram && (laptop.vram ?? 0) < requirements.minVram) reasons.push(`Below your ${requirements.minVram} GB VRAM minimum`);
+  if (requirements.maxWeight && laptop.weight > requirements.maxWeight) reasons.push(`Heavier than your ${requirements.maxWeight} kg maximum`);
+  if (requirements.brandPreference && !laptop.brand.toLowerCase().includes(requirements.brandPreference.toLowerCase())) reasons.push(`Not your preferred ${requirements.brandPreference} brand`);
+  if (requirements.osPreference) reasons.push(`OS preference is unsupported by the current catalog`);
   return { eligible: reasons.length === 0, reasons };
 }
 
@@ -178,10 +189,12 @@ function buildReasons(laptop: Laptop, requirements: RecommendationRequirements, 
 export function recommend(input: Partial<RecommendationRequirements>, catalog = laptops): { requirements: RecommendationRequirements; results: Recommendation[]; scoringVersion: string; catalogVersion: string } {
   const requirements = normalizeRequirements(input);
   const eligible = catalog.filter((laptop) => eligibility(laptop, requirements).eligible);
-  const candidates = eligible.length ? eligible : [...catalog].sort((a, b) => nearMatchGap(a, requirements) - nearMatchGap(b, requirements) || b.valueScore - a.valueScore).slice(0, 5);
+  const nearMatches = [...catalog].filter((laptop) => !eligible.includes(laptop)).sort((a, b) => nearMatchGap(a, requirements) - nearMatchGap(b, requirements) || b.valueScore - a.valueScore);
+  const candidates = [...eligible, ...nearMatches].slice(0, 5);
   const results = candidates.map((laptop) => {
     const breakdown = getBreakdown(laptop, requirements);
     const hardReasons = eligibility(laptop, requirements).reasons;
+    const nearMatch = hardReasons.length > 0;
     const hardPenalty = hardReasons.length ? Math.min(60, hardReasons.length * 18) : 0;
     const score = clamp(breakdown.overall - hardPenalty);
     const compromises: string[] = [];
@@ -205,11 +218,12 @@ export function recommend(input: Partial<RecommendationRequirements>, catalog = 
         `${laptop.display} · ${laptop.refreshRate} Hz · ${laptop.weight} kg`,
         `Budget fit ${Math.round(breakdown.budgetFit)}/100 · use-case fit ${Math.round(breakdown.useCase)}/100`,
       ],
+      nearMatch,
+      constraintViolations: hardReasons,
     };
   }).sort((a, b) => {
-    if (!eligible.length) {
-      return nearMatchGap(a.laptop, requirements) - nearMatchGap(b.laptop, requirements) || b.score - a.score || a.laptop.id - b.laptop.id;
-    }
+    if (a.nearMatch !== b.nearMatch) return Number(a.nearMatch) - Number(b.nearMatch);
+    if (a.nearMatch) return nearMatchGap(a.laptop, requirements) - nearMatchGap(b.laptop, requirements) || b.score - a.score || a.laptop.id - b.laptop.id;
     return b.score - a.score || b.scoreBreakdown.useCase - a.scoreBreakdown.useCase || a.laptop.id - b.laptop.id;
   })
     .slice(0, 5)

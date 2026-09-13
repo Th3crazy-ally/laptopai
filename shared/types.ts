@@ -43,8 +43,11 @@ export type RecommendationRequirements = {
   uses: UseCase[];
   cpuPreference?: string;
   gpuPreference?: string;
+  brandPreference?: string;
+  osPreference?: string;
   gpuRequired?: boolean;
   minVram?: number;
+  maxWeight?: number;
   displayPreference?: DisplayPreference;
   minRam: number;
   minStorage: number;
@@ -76,6 +79,7 @@ export type ScoreBreakdown = {
   useCase: number;
   value: number;
   budgetFit: number;
+  preference: number;
 };
 
 export type Recommendation = {
@@ -87,6 +91,8 @@ export type Recommendation = {
   reasons: string[];
   compromises: string[];
   evidence: string[];
+  nearMatch: boolean;
+  constraintViolations: string[];
 };
 
 export type ParsedRequirements = {
