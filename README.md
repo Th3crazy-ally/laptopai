@@ -50,9 +50,6 @@ Natural-language parsing is an optional convenience. Its output is validated bef
 
 The included catalog is a curated benchmark fixture for demonstrating the product experience. Prices are not live retailer quotes and availability is not guaranteed. A production catalog should preserve source URL, currency, observed time, licensing, freshness, and import-run metadata.
 
-## Security
-
-Do not commit `.env` files, API keys, passwords, node modules, virtual environments, or machine-specific paths. Server-side AI credentials are provided by the platform runtime and must never be exposed in client code. Before adding accounts, history, alerts, or retailer integrations, add retention, authorization, abuse controls, and deletion workflows.
 
 ## Future extensions
 
