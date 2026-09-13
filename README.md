@@ -1,41 +1,606 @@
-# LaptopAI
+# 💻 LaptopAI
 
-LaptopAI turns a messy laptop buying decision into a clear, explainable shortlist. It combines a curated catalog with a deterministic weighted scoring engine that responds to budget, use cases, minimum specifications, and personal priorities. Optional AI features translate natural-language briefs and explain results using only backend-supplied facts.
+### AI-Powered Laptop Recommendation & Comparison Platform
 
-> **Repository note:** this repository contains the actual LaptopAI source code. It does not contain credentials, production database values, or a link-only placeholder.
+<p align="center">
 
-## Features
+**🚀 Live Website:** https://laptopai.onrender.com/
 
-- Guided brief with budget, RAM, storage, use-case, and priority controls.
-- Natural-language brief parsing with an editable, deterministic fallback.
-- Curated laptop catalog with provenance labels and version metadata.
-- Constraint-aware weighted ranking with score breakdowns, evidence, confidence, and compromises.
-- Product deep dives and side-by-side comparison.
-- Grounded AI explanations that never select products or invent specifications.
-- Graceful operation when optional AI services are unavailable.
-- Responsive editorial UI with light/dark theme support.
-- Drizzle schema and migration support for catalog and recommendation records.
+**💻 Source Code:** https://github.com/Th3crazy-ally/laptopai
 
-## Tech stack
+</p>
 
-LaptopAI uses React 19, TypeScript, Vite, Tailwind CSS, tRPC, Express, Drizzle ORM, MySQL/TiDB, Vitest, and pnpm. Authentication and optional Manus integrations are implemented server-side through the existing WebDev runtime adapters.
+[![Live Demo](https://img.shields.io/badge/🚀%20Live%20Demo-laptopai.onrender.com-0f172a?style=for-the-badge)](https://laptopai.onrender.com/)
+[![GitHub](https://img.shields.io/badge/GitHub-Source%20Code-181717?style=for-the-badge\&logo=github)](https://github.com/Th3crazy-ally/laptopai)
 
-## Run locally
+> **Find the laptop that fits you — based on your budget, requirements, workload, and priorities.**
 
-Prerequisites are Node.js 22 or newer and pnpm 10 or newer.
+LaptopAI is a full-stack laptop recommendation and comparison platform that turns laptop specifications and user requirements into a clear, explainable shortlist.
+
+---
+
+## 🚀 Live Demo
+
+### 👉 [Open LaptopAI](https://laptopai.onrender.com/)
+
+Try the application directly:
+
+**https://laptopai.onrender.com/**
+
+### 💻 Source Code
+
+**https://github.com/Th3crazy-ally/laptopai**
+
+---
+
+## ✨ Features
+
+* 🎯 Personalized laptop recommendations
+* 💰 Budget-based recommendations
+* 🎮 Gaming-focused recommendations
+* 👨‍💻 Programming and development recommendations
+* 🎬 Content-creation recommendations
+* 🤖 Optional AI-assisted recommendations
+* 📊 Explainable recommendation scores
+* ⚖️ Side-by-side laptop comparison
+* 🔍 Laptop specification analysis
+* 🧠 Natural-language requirement parsing
+* 💡 AI-generated recommendation explanations
+* 📱 Responsive interface
+* 🌙 Light/dark theme support
+* 🔄 Deterministic fallback when AI services are unavailable
+
+---
+
+## 🧠 How It Works
+
+LaptopAI doesn't simply ask an LLM:
+
+> "Which laptop should I buy?"
+
+Instead, the application uses a structured recommendation pipeline:
+
+```text
+User Requirements
+       │
+       ▼
+Requirement Processing
+       │
+       ▼
+Laptop Catalog
+       │
+       ▼
+Feature Extraction
+       │
+       ▼
+Constraint Filtering
+       │
+       ▼
+Weighted Recommendation Engine
+       │
+       ▼
+Laptop Ranking
+       │
+       ▼
+Top Recommendations
+       │
+       ▼
+Optional AI Explanation
+```
+
+This makes the recommendation process more transparent and controllable.
+
+---
+
+## 📊 Recommendation Scoring
+
+LaptopAI considers factors such as:
+
+* CPU performance
+* GPU performance
+* RAM
+* Storage
+* Display
+* Battery
+* Portability
+* Gaming suitability
+* Programming suitability
+* Value for money
+
+User priorities dynamically influence the scoring weights.
+
+A simplified model looks like:
+
+```text
+Overall Score =
+    Performance × Performance Weight
+  + Gaming × Gaming Weight
+  + Programming × Programming Weight
+  + Battery × Battery Weight
+  + Portability × Portability Weight
+  + Value × Value Weight
+```
+
+The final recommendation score is normalized to a 0–100 scale.
+
+---
+
+## 🎮 Gaming
+
+LaptopAI can prioritize:
+
+* GPU performance
+* CPU performance
+* RAM
+* Display refresh rate
+* Performance-to-price ratio
+
+This makes it possible to find laptops suitable for different levels of gaming.
+
+---
+
+## 👨‍💻 Programming
+
+For developers and students, LaptopAI can prioritize:
+
+* CPU performance
+* RAM
+* SSD storage
+* Multitasking capability
+* Portability
+* Battery life
+
+---
+
+## 🎬 Content Creation
+
+For video editing and creative workloads, the system considers:
+
+* CPU performance
+* GPU performance
+* RAM
+* Storage
+* Display
+* Overall system performance
+
+---
+
+## 🤖 AI/ML
+
+For AI/ML workloads, LaptopAI can prioritize:
+
+* GPU capability
+* VRAM
+* CPU performance
+* RAM
+* Storage
+
+---
+
+## ⚖️ Laptop Comparison
+
+Users can compare multiple laptops side-by-side.
+
+Comparison categories include:
+
+| Category          | Comparison |
+| ----------------- | ---------- |
+| Price             | ✅          |
+| CPU               | ✅          |
+| GPU               | ✅          |
+| RAM               | ✅          |
+| Storage           | ✅          |
+| Display           | ✅          |
+| Battery           | ✅          |
+| Weight            | ✅          |
+| Gaming Score      | ✅          |
+| Programming Score | ✅          |
+| Overall Score     | ✅          |
+
+---
+
+## 💡 AI Explanations
+
+The optional AI layer can explain:
+
+* Why a laptop was recommended
+* Its strongest features
+* Its weaknesses
+* Important compromises
+* Who should buy it
+* Who should avoid it
+
+The AI is designed to work from backend-supplied laptop information rather than inventing specifications.
+
+If an AI service is unavailable, LaptopAI can fall back to deterministic explanations.
+
+---
+
+## 🏗️ Architecture
+
+```mermaid
+flowchart TD
+
+    A[User] --> B[React / Vite Frontend]
+
+    B --> C[Express Server]
+
+    C --> D[tRPC API]
+
+    D --> E[Recommendation Engine]
+
+    E --> F[Laptop Catalog]
+
+    E --> G[Weighted Scoring]
+
+    D --> H[Optional AI Layer]
+
+    C --> I[Drizzle ORM]
+
+    I --> J[(MySQL / TiDB)]
+
+    E --> K[Ranked Recommendations]
+
+    K --> B
+```
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+* React
+* TypeScript
+* Vite
+* Tailwind CSS
+
+### Backend
+
+* Node.js
+* Express
+* TypeScript
+* tRPC
+
+### Database
+
+* MySQL / TiDB
+* Drizzle ORM
+
+### AI
+
+* Optional LLM integration
+* Natural-language requirement parsing
+* AI-assisted explanations
+* Deterministic fallback system
+
+### Testing
+
+* Vitest
+* TypeScript checking
+* Production build validation
+
+### Deployment
+
+* GitHub
+* Render
+
+---
+
+## 📁 Project Structure
+
+```text
+laptopai/
+│
+├── client/
+│   ├── index.html
+│   └── src/
+│       ├── App.tsx
+│       ├── pages/
+│       ├── components/
+│       └── index.css
+│
+├── server/
+│   ├── catalog.ts
+│   ├── recommendations.ts
+│   ├── routers.ts
+│   ├── db.ts
+│   └── _core/
+│
+├── drizzle/
+│   ├── schema.ts
+│   └── migrations/
+│
+├── shared/
+│   └── types.ts
+│
+├── docs/
+│
+├── .env.example
+├── .gitignore
+├── package.json
+├── pnpm-lock.yaml
+├── tsconfig.json
+├── vite.config.ts
+└── README.md
+```
+
+---
+
+# ⚙️ Run Locally
+
+## Prerequisites
+
+* Node.js 22+
+* pnpm 10+
+* Git
+* MySQL/TiDB-compatible database if database-backed functionality is required
+
+### Clone the repository
 
 ```bash
 git clone https://github.com/Th3crazy-ally/laptopai.git
 cd laptopai
+```
+
+### Install dependencies
+
+```bash
 pnpm install
+```
+
+### Configure environment variables
+
+```bash
 cp .env.example .env
-# Edit .env with local values for the features you want to use.
+```
+
+On Windows PowerShell:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Configure the required values inside `.env`.
+
+### Start development server
+
+```bash
 pnpm dev
 ```
 
-The development server is normally available at `http://localhost:3000`.
+The application will normally be available at:
 
-Run validation commands:
+```text
+http://localhost:3000
+```
+
+---
+
+# 🧪 Testing
+
+Run TypeScript checks:
+
+```bash
+pnpm check
+```
+
+Run tests:
+
+```bash
+pnpm test
+```
+
+Build for production:
+
+```bash
+pnpm build
+```
+
+Start production server:
+
+```bash
+pnpm start
+```
+
+---
+
+# ☁️ Deployment
+
+LaptopAI is deployed as a full-stack application on Render.
+
+### Production URL
+
+**https://laptopai.onrender.com/**
+
+### Deployment architecture
+
+```text
+GitHub
+   │
+   ▼
+Render Web Service
+   │
+   ├── React / Vite
+   ├── Express
+   ├── tRPC
+   └── Recommendation Engine
+```
+
+### Build command
+
+```bash
+corepack enable && pnpm install --frozen-lockfile && pnpm build
+```
+
+### Start command
+
+```bash
+pnpm start
+```
+
+### Health check
+
+```text
+/
+```
+
+---
+
+# 🔐 Environment Variables
+
+Create a `.env` file locally using `.env.example`.
+
+Example:
+
+```env
+DATABASE_URL=your_database_url
+JWT_SECRET=your_secure_secret
+NODE_ENV=development
+```
+
+Optional AI integration:
+
+```env
+OPENAI_API_KEY=your_api_key
+```
+
+**Never commit `.env` or real API credentials to GitHub.**
+
+---
+
+# 🛡️ Security
+
+LaptopAI follows basic security practices including:
+
+* Environment-based secrets
+* `.gitignore` protection
+* Input validation
+* Server-side API credentials
+* No committed production secrets
+* Safe environment templates
+
+If a credential is accidentally committed, rotate it immediately and remove it from the repository history.
+
+---
+
+# 📈 Project Status
+
+| Component              | Status          |
+| ---------------------- | --------------- |
+| React frontend         | ✅ Complete      |
+| Express backend        | ✅ Complete      |
+| tRPC API               | ✅ Complete      |
+| Laptop catalog         | ✅ Complete      |
+| Recommendation engine  | ✅ Complete      |
+| Laptop comparison      | ✅ Complete      |
+| Explainable scoring    | ✅ Complete      |
+| Deterministic fallback | ✅ Complete      |
+| Automated tests        | ✅ Complete      |
+| Production build       | ✅ Complete      |
+| GitHub repository      | ✅ Public        |
+| Render deployment      | ✅ Live          |
+| Optional AI            | ⚙️ Configurable |
+| Advanced ML            | 🚧 Planned      |
+
+---
+
+# 🗺️ Roadmap
+
+### Phase 1 — Core Platform
+
+* [x] Laptop catalog
+* [x] Recommendation engine
+* [x] Budget filtering
+* [x] Use-case recommendations
+* [x] Laptop comparison
+* [x] Explainable scores
+* [x] Responsive UI
+* [x] Public deployment
+
+### Phase 2 — AI
+
+* [ ] Improved natural-language parsing
+* [ ] Grounded AI explanations
+* [ ] Review summarization
+* [ ] Conversational laptop assistant
+
+### Phase 3 — Machine Learning
+
+* [ ] Larger real-world dataset
+* [ ] Feature engineering pipeline
+* [ ] ML recommendation model
+* [ ] Recommendation evaluation
+* [ ] User-feedback-based learning
+
+### Phase 4 — Live Data
+
+* [ ] Live laptop prices
+* [ ] Price history
+* [ ] Availability tracking
+* [ ] Automated catalog updates
+* [ ] Benchmark integration
+
+### Phase 5 — Advanced Features
+
+* [ ] User accounts
+* [ ] Saved recommendations
+* [ ] Recommendation history
+* [ ] Price-drop alerts
+* [ ] Personalized recommendations
+* [ ] Review RAG
+* [ ] Multiple currencies
+* [ ] Affiliate integrations
+
+---
+
+# 🔮 Future Vision
+
+LaptopAI is designed to evolve into a complete laptop decision platform.
+
+The long-term architecture can combine:
+
+```text
+Laptop Specifications
+        +
+Benchmarks
+        +
+Prices
+        +
+Reviews
+        +
+User Requirements
+        +
+Historical Data
+        +
+Machine Learning
+        +
+Generative AI
+        ↓
+Personalized Recommendation
+```
+
+The goal isn't simply to find the laptop with the highest specifications.
+
+The goal is to find the **best laptop for a particular person, budget, and workload.**
+
+---
+
+# 🤝 Contributing
+
+Contributions are welcome.
+
+### 1. Fork the repository
+
+### 2. Create a feature branch
+
+```bash
+git checkout -b feature/my-feature
+```
+
+### 3. Make your changes
+
+### 4. Run validation
 
 ```bash
 pnpm check
@@ -43,88 +608,51 @@ pnpm test
 pnpm build
 ```
 
-## Environment variables
-
-`.env.example` lists every environment variable referenced by the runtime. Copy it to `.env` for local work; never commit `.env` or real credentials.
-
-| Variable | Purpose | Required |
-|---|---|---|
-| `DATABASE_URL` | MySQL/TiDB connection used by Drizzle persistence | For database-backed features |
-| `JWT_SECRET` | Signs authentication session cookies | For authentication |
-| `VITE_APP_ID` | Manus OAuth application ID | For authentication |
-| `OAUTH_SERVER_URL` | OAuth backend base URL | For authentication |
-| `VITE_OAUTH_PORTAL_URL` | Browser login portal URL | For authentication |
-| `OWNER_OPEN_ID` / `OWNER_NAME` | Owner metadata used by the auth bootstrap | For owner-aware auth |
-| `BUILT_IN_FORGE_API_URL` / `BUILT_IN_FORGE_API_KEY` | Server-side Manus AI, storage, maps, notifications, and voice integrations | For optional integrations |
-| `VITE_FRONTEND_FORGE_API_URL` / `VITE_FRONTEND_FORGE_API_KEY` | Browser-side integration configuration where applicable | For optional frontend integrations |
-| `OPENAI_API_KEY` | Optional direct OpenAI-compatible LLM integration | Only if that provider path is enabled |
-| `VITE_ANALYTICS_ENDPOINT` / `VITE_ANALYTICS_WEBSITE_ID` | Optional analytics script configuration | Optional |
-
-Do not paste secrets into source files, README examples, issues, commit messages, or client-side code. If a credential was ever committed, rotate it and remove it from history before publishing.
-
-## Project structure
-
-```text
-client/
-  index.html
-  src/
-    App.tsx                 # application routes and providers
-    pages/Home.tsx          # main product experience
-    components/             # reusable UI and WebDev components
-    index.css               # LaptopAI visual system and responsive styles
-server/
-  catalog.ts                # curated laptop records
-  recommendations.ts        # deterministic scoring and natural-language fallback
-  routers.ts                # typed tRPC procedures
-  db.ts                     # database helpers
-  _core/                    # WebDev runtime adapters and integrations
-drizzle/
-  schema.ts                 # database schema
-  *.sql                     # generated migrations
-shared/
-  types.ts                  # shared contracts
-docs/
-  recommendation-methodology.md
-  visual-verification.md
-.env.example                # safe placeholders only
-```
-
-## Deployment
-
-LaptopAI is a full-stack application. GitHub stores the source code, but GitHub Pages is not sufficient for the complete product because the recommendation API, Express server, authentication, database, and optional integrations require a server runtime.
-
-### Manus WebDev
-
-The existing Manus project can run and publish this application through its WebDev deployment flow. Configure production environment variables through the platform’s secret manager, not through committed files, then deploy the existing project checkpoint.
-
-### Generic Node host
-
-A compatible host such as Render, Railway, Fly.io, or another Node service can deploy the repository using:
+### 5. Commit
 
 ```bash
-pnpm install --frozen-lockfile
-pnpm build
-pnpm start
+git commit -m "Add my feature"
 ```
 
-Set the service to listen on the host-provided `PORT` and add the required production environment variables through the provider’s secret settings. Configure a managed MySQL/TiDB database and run the reviewed Drizzle migrations before using database-backed features. Keep authentication callback URLs and allowed origins aligned with the deployed domain.
+### 6. Push
 
-### Vercel or other serverless hosts
+```bash
+git push origin feature/my-feature
+```
 
-Use a serverless adapter only if the provider supports the Express/tRPC runtime and the project’s authentication/database behavior. Do not assume a static export is equivalent to this full-stack application. Validate OAuth callbacks, database connectivity, cold starts, and optional integration credentials in a staging deployment first.
+### 7. Open a Pull Request
 
-## Recommendation methodology
+Please keep contributions focused and never commit secrets or generated dependencies.
 
-The scorer normalizes requirements, applies hard budget and minimum-spec constraints, calculates component signals, applies dynamic weights, and sorts deterministically. If hard constraints eliminate every candidate, the near-match fallback shows the relevant compromises. See [`docs/recommendation-methodology.md`](docs/recommendation-methodology.md).
+---
 
-## Security and data notes
+# 📄 License
 
-The included catalog is a curated benchmark fixture for demonstrating the product experience. Prices are not live retailer quotes and availability is not guaranteed. Production imports should preserve source URL, currency, observed time, licensing, freshness, and import-run metadata. Before adding accounts, history, alerts, or retailer integrations, add retention, authorization, abuse controls, and deletion workflows.
+This project is licensed under the **MIT License**.
 
-## Future extensions
+See the [`LICENSE`](LICENSE) file for details.
 
-The modular boundaries support live prices, price history, availability, review analysis/RAG, accounts, personalized recommendations, alerts, affiliate links, more currencies, and an evaluated ML strategy. These should be added only with appropriate provenance, labels, privacy controls, and operational review.
+---
 
-## License
+# 👨‍💻 Author
 
-The project currently retains the MIT license metadata from the WebDev template. Confirm the intended license and add a `LICENSE` file before distributing the repository as an open-source project.
+**Th3crazy-ally**
+
+GitHub:
+https://github.com/Th3crazy-ally
+
+---
+
+# ⭐ Try LaptopAI
+
+## 🚀 [Open the Live Website →](https://laptopai.onrender.com/)
+
+## 💻 [View the Source Code →](https://github.com/Th3crazy-ally/laptopai)
+
+---
+
+<p align="center">
+
+**LaptopAI — Find the laptop that fits you.**
+
+</p>
