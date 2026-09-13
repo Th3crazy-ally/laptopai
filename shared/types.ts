@@ -1,6 +1,7 @@
 export type Currency = "INR" | "USD";
 
 export type UseCase = "programming" | "gaming" | "content" | "ai";
+export type DisplayPreference = "any" | "high-refresh" | "color-accurate";
 
 export type Laptop = {
   id: number;
@@ -42,9 +43,16 @@ export type RecommendationRequirements = {
   uses: UseCase[];
   cpuPreference?: string;
   gpuPreference?: string;
+  gpuRequired?: boolean;
+  minVram?: number;
+  displayPreference?: DisplayPreference;
   minRam: number;
   minStorage: number;
   minRefreshRate?: number;
+  gamingImportance: number;
+  programmingImportance: number;
+  editingImportance: number;
+  aiImportance: number;
   batteryImportance: number;
   portabilityImportance: number;
   performanceImportance: number;
@@ -52,6 +60,12 @@ export type RecommendationRequirements = {
 };
 
 export type ScoreBreakdown = {
+  overall: number;
+  performance: number;
+  gaming: number;
+  programming: number;
+  editing: number;
+  ai: number;
   cpu: number;
   gpu: number;
   memory: number;
@@ -61,6 +75,7 @@ export type ScoreBreakdown = {
   portability: number;
   useCase: number;
   value: number;
+  budgetFit: number;
 };
 
 export type Recommendation = {

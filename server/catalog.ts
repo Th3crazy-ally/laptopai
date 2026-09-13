@@ -1,6 +1,6 @@
 import type { Laptop } from "@shared/types";
 
-export const CATALOG_VERSION = "2026.09-curated-inr";
+export const CATALOG_VERSION = "2026.09-curated-inr-v2";
 
 export const laptops: Laptop[] = [
   {
@@ -261,6 +261,39 @@ export const laptops: Laptop[] = [
     buildScore: 91,
     valueScore: 91,
     colors: { from: "#e6edf3", to: "#b8c6db", accent: "#0f172a" },
+    source: "LaptopAI curated benchmark set",
+    updatedAt: "2026-09-01",
+  },
+  {
+    id: 9,
+    brand: "Acer",
+    model: "Nitro V 15",
+    slug: "acer-nitro-v-15",
+    tagline: "Dedicated graphics for affordable high-FPS play",
+    price: 69990,
+    currency: "INR",
+    cpu: "Intel Core i5-13420H",
+    cpuScore: 76,
+    gpu: "NVIDIA GeForce RTX 4050 6GB",
+    gpuScore: 78,
+    ram: 16,
+    storage: 512,
+    storageType: "NVMe SSD",
+    display: "15.6\" FHD IPS",
+    displaySize: 15.6,
+    resolution: "1920 × 1080",
+    refreshRate: 144,
+    battery: "57.5 Wh",
+    batteryScore: 66,
+    weight: 2.1,
+    gamingScore: 86,
+    programmingScore: 71,
+    editingScore: 74,
+    aiScore: 76,
+    buildScore: 75,
+    valueScore: 92,
+    vram: 6,
+    colors: { from: "#253b5e", to: "#1f2937", accent: "#fbbf24" },
     source: "LaptopAI curated benchmark set",
     updatedAt: "2026-09-01",
   },
